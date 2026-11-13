@@ -1,0 +1,531 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>阿桂嬤冷凍宅配訂購</title>
+<meta name="description" content="阿桂嬤漢方養生茶冷凍宅配：線上訂購、匯款回報、查詢出貨進度。">
+<meta property="og:title" content="阿桂嬤冷凍宅配訂購">
+<meta property="og:description" content="古法熬煮漢方養生茶，1300ml 大瓶裝，黑貓低溫宅配到家。滿 12 瓶免運。">
+<meta name="theme-color" content="#142A20">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;900&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<style>
+:root{
+  --forest:#142A20; --forest-deep:#0D1E16; --forest-line:#24402F;
+  --paper:#F3E6C4; --paper-2:#E8D5A8; --ink:#3A2412; --ink-head:#1F4031;
+  --gold:#C79A3E; --gold-soft:#E3C878; --red:#A8231D; --muted:#7A6A4C; --ok:#2E6B45;
+  --f-display:"Noto Serif TC","Songti TC","PMingLiU",serif;
+  --f-body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--forest);color:var(--paper);font-family:var(--f-body);font-size:15px;line-height:1.6;
+  background-image:radial-gradient(ellipse at top,#1C3A2B 0%,var(--forest) 55%,var(--forest-deep) 100%);min-height:100vh;
+  padding-top:env(safe-area-inset-top,0px)}
+[hidden]{display:none!important}
+.wrap{max-width:560px;margin:0 auto;padding-block:16px 140px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header{text-align:center;padding:14px 0 6px}
+.ribbon{display:inline-block;background:var(--red);color:var(--paper);font-size:12px;letter-spacing:.2em;padding:3px 14px;border-radius:2px}
+h1{font-family:var(--f-display);font-weight:900;font-size:clamp(28px,8vw,38px);margin:10px 0 2px;color:var(--paper);letter-spacing:.06em;text-wrap:balance}
+.sub{color:var(--gold-soft);font-size:13px;letter-spacing:.08em}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:16px 0;border:1px solid var(--gold);border-radius:8px;padding:4px}
+.tabs a{text-align:center;padding:9px;border-radius:5px;color:var(--gold-soft);text-decoration:none;font-weight:700;letter-spacing:.1em}
+.tabs a[aria-current="page"]{background:var(--paper);color:var(--ink-head)}
+.tabs a:focus-visible{outline:2px solid var(--gold-soft);outline-offset:2px}
+.demo{background:#5A3A10;border:1px dashed var(--gold-soft);color:var(--paper);border-radius:6px;padding:8px 12px;font-size:13px;margin-bottom:12px}
+.card{background:linear-gradient(180deg,var(--paper),var(--paper-2));color:var(--ink);border:1px solid var(--gold);border-radius:8px;
+  box-shadow:0 4px 14px rgba(0,0,0,.3);padding:18px 16px;margin-bottom:16px;outline:1px solid rgba(199,154,62,.35);outline-offset:3px}
+h2{font-family:var(--f-display);font-weight:900;color:var(--ink-head);font-size:19px;margin:0 0 4px}
+.hint{font-size:13px;color:var(--muted);margin:0 0 12px}
+.rate{display:grid;grid-template-columns:1fr auto;gap:4px 12px;font-size:14px;font-variant-numeric:tabular-nums}
+.rate b{color:var(--red)}
+.group{font-size:12px;letter-spacing:.2em;color:var(--gold);font-weight:700;margin:14px 0 4px;border-bottom:1px dashed var(--gold);padding-bottom:4px}
+.item{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(58,36,18,.12)}
+.item .name{flex:1;min-width:0}
+.item .name strong{display:block;font-size:16px;color:var(--ink-head)}
+.item .name span{font-size:12px;color:var(--muted)}
+.item.on .name strong::after{content:" ✓";color:var(--red);font-size:13px}
+.item.out{opacity:.55}
+.item.out .name strong{text-decoration:line-through;text-decoration-color:var(--red)}
+.soldout{display:inline-block;font-size:11px;background:var(--red);color:var(--paper);padding:0 8px;border-radius:2px;margin-left:6px}
+.step{display:flex;align-items:center;border:1px solid var(--gold);border-radius:999px;overflow:hidden;background:#FBF4E2;flex:none}
+.step button{width:38px;height:38px;border:0;background:transparent;color:var(--ink-head);font-size:20px;cursor:pointer}
+.step button:disabled{opacity:.3;cursor:default}
+.step button:focus-visible{outline:2px solid var(--red);outline-offset:-2px}
+.step output{width:30px;text-align:center;font-weight:700;font-variant-numeric:tabular-nums;color:var(--ink)}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.seg label{position:relative;border:1px solid var(--gold);border-radius:6px;padding:10px;text-align:center;cursor:pointer;font-weight:700;color:var(--ink-head);background:#FBF4E2}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg label:has(input:checked){background:var(--ink-head);border-color:var(--ink-head);color:var(--paper)}
+.seg label:has(input:focus-visible){outline:2px solid var(--red);outline-offset:2px}
+.field{display:flex;flex-direction:column;gap:4px;margin-bottom:12px}
+.field label{font-size:13px;font-weight:700;color:var(--ink-head)}
+.field input,.field textarea{font:inherit;font-size:16px;color:var(--ink);background:#FFFBF0;border:1px solid #CDB27A;border-radius:6px;padding:10px 12px;width:100%}
+.field input:focus,.field textarea:focus{outline:2px solid var(--gold);border-color:var(--gold)}
+.err{color:var(--red);font-size:12px}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.bar{position:fixed;left:0;right:0;bottom:0;background:var(--forest-deep);border-top:1px solid var(--gold);z-index:5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-top:10px;padding-bottom:calc(10px + env(safe-area-inset-bottom,0px))}
+.bar .in{max-width:560px;margin:0 auto;display:flex;align-items:center;gap:12px}
+.sum{flex:1;min-width:0;font-variant-numeric:tabular-nums}
+.sum .total{font-family:var(--f-display);font-weight:900;font-size:24px;color:var(--paper)}
+.sum .detail{font-size:12px;color:var(--gold-soft)}
+.sum .nudge{font-size:12px;color:#F0B9A0}
+.btn{font:inherit;font-weight:700;border:0;border-radius:6px;padding:12px 18px;cursor:pointer;background:var(--red);color:var(--paper);letter-spacing:.08em;text-decoration:none;display:inline-block;text-align:center}
+.btn:disabled{background:#4A3A2A;color:#9C8B6A;cursor:default}
+.btn:focus-visible{outline:2px solid var(--gold-soft);outline-offset:2px}
+.btn.ghost{background:transparent;color:var(--ink-head);border:1px solid var(--ink-head)}
+.btn.line{background:#06C755;color:#fff}
+.btn.wide{width:100%}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.receipt{font-variant-numeric:tabular-nums;width:100%;border-collapse:collapse;font-size:14px;margin-top:8px}
+.receipt td{padding:4px 0}
+.receipt td:last-child{text-align:right;white-space:nowrap}
+.receipt tr.t td{border-top:1px solid var(--gold);padding-top:8px;font-weight:700;font-size:17px;color:var(--red)}
+.ono{font-family:var(--f-display);font-size:24px;font-weight:900;color:var(--red);letter-spacing:.05em}
+.bank{display:grid;grid-template-columns:auto 1fr auto;gap:8px 10px;align-items:center;font-variant-numeric:tabular-nums;margin:0}
+.bank dt{font-size:13px;color:var(--muted)}
+.bank dd{margin:0;font-weight:700;font-size:16px;color:var(--ink-head);word-break:break-all}
+.copy{font:inherit;font-size:12px;border:1px solid var(--gold);background:#FBF4E2;color:var(--ink-head);border-radius:4px;padding:4px 10px;cursor:pointer}
+.okbox{background:#E3F0E6;border:1px solid var(--ok);color:var(--ok);border-radius:6px;padding:10px 12px;font-weight:700;font-size:14px}
+.timeline{list-style:none;padding:0;margin:12px 0 4px;display:grid;grid-template-columns:repeat(4,1fr);gap:4px;text-align:center;font-size:12px}
+.timeline li{padding-top:22px;position:relative;color:var(--muted)}
+.timeline li::before{content:"";position:absolute;top:4px;left:50%;width:12px;height:12px;margin-left:-6px;border-radius:50%;border:2px solid #CDB27A;background:#FFFBF0}
+.timeline li::after{content:"";position:absolute;top:9px;left:calc(50% + 8px);right:calc(-50% + 8px);height:2px;background:#CDB27A}
+.timeline li:last-child::after{display:none}
+.timeline li.done{color:var(--ink-head);font-weight:700}
+.timeline li.done::before{background:var(--ok);border-color:var(--ok)}
+.timeline li.done::after{background:var(--ok)}
+.timeline li.now::before{box-shadow:0 0 0 4px rgba(46,107,69,.25)}
+.status-pill{display:inline-block;font-size:13px;font-weight:700;padding:2px 12px;border-radius:999px;background:var(--ink-head);color:var(--paper)}
+.status-pill.cancel{background:var(--muted)}
+.track{font-family:var(--f-display);font-size:22px;font-weight:900;color:var(--ink-head);letter-spacing:.04em;font-variant-numeric:tabular-nums}
+.foot{text-align:center;font-size:12px;color:var(--gold-soft);opacity:.85;margin-top:8px}
+.loading{font-size:12px;color:var(--muted)}
+.toast{position:fixed;left:50%;bottom:calc(100px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink-head);color:var(--paper);padding:8px 16px;border-radius:999px;font-size:13px;z-index:9;border:1px solid var(--gold);max-width:90vw;text-align:center}
+@media (prefers-reduced-motion:no-preference){.btn,.step button{transition:background .15s}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span class="ribbon">冷凍宅配</span>
+    <h1>阿桂嬤漢方養生茶</h1>
+    <div class="sub">古法熬煮・1300ml 大瓶裝・黑貓低溫直送</div>
+  </header>
+
+  <nav class="tabs" aria-label="頁面">
+    <a href="#order" id="tab-order">我要訂購</a>
+    <a href="#track" id="tab-track">查詢訂單</a>
+  </nav>
+  <div class="demo" id="demo" hidden>示範模式：還沒連上訂單試算表，下的訂單只存在這支手機，可以放心測試。</div>
+
+  <!-- ===== 訂購 ===== -->
+  <section id="v-order" hidden>
+    <div class="card">
+      <h2>價格與運費</h2>
+      <div class="rate">
+        <span>單瓶（1300ml）</span><b>130 元</b>
+        <span>本島 1～6 瓶</span><span>運費 200 元</span>
+        <span>本島 7～11 瓶</span><span>運費 290 元</span>
+        <span>滿 12 瓶</span><b>免運費</b>
+        <span>離島</span><span>每箱 400 元，滿 12 瓶每箱補 110 元</span>
+      </div>
+      <p class="hint" style="margin:10px 0 0">每箱最多 12 瓶，口味可任意混搭。</p>
+    </div>
+
+    <div class="card">
+      <h2>選擇口味</h2>
+      <p class="hint">按 ＋ 加瓶數，下方會自動算總金額。<span class="loading" id="stock-loading">（正在確認供應狀態…）</span></p>
+      <div id="list"></div>
+    </div>
+
+    <form class="card" id="form" novalidate>
+      <h2>收件資料</h2>
+      <div class="seg" role="radiogroup" aria-label="配送地區">
+        <label><input type="radio" name="region" id="r-main" value="本島" checked>台灣本島</label>
+        <label><input type="radio" name="region" id="r-island" value="離島">離島</label>
+      </div>
+      <div class="field"><label for="f-name">收件人姓名</label><input id="f-name" autocomplete="name" placeholder="例：王小明" maxlength="40"><span class="err" id="e-name"></span></div>
+      <div class="field"><label for="f-phone">手機號碼（查詢訂單會用到）</label><input id="f-phone" inputmode="tel" autocomplete="tel" placeholder="09xxxxxxxx" maxlength="12"><span class="err" id="e-phone"></span></div>
+      <div class="field"><label for="f-addr">收件地址</label><input id="f-addr" autocomplete="street-address" placeholder="縣市＋區＋路＋號＋樓" maxlength="120"><span class="err" id="e-addr"></span></div>
+      <div class="field"><label for="f-note">備註（選填）</label><textarea id="f-note" rows="2" maxlength="200" placeholder="希望到貨日、管理室代收…"></textarea></div>
+      <div class="hp" aria-hidden="true"><label for="f-website">網站</label><input id="f-website" tabindex="-1" autocomplete="off"></div>
+    </form>
+
+    <div class="card">
+      <h2>保存方式</h2>
+      <p class="hint" style="margin:0">冷凍可保存 30 天。要喝前一晚移到冷藏退冰，解凍後請冷藏並於 3 天內喝完，請勿再次冷凍。<br>確認收款後約 4 個工作天出貨。</p>
+    </div>
+    <p class="foot">有一種渴，叫阿嬤覺得你渴 ❤️</p>
+  </section>
+
+  <!-- ===== 付款 ===== -->
+  <section id="v-pay" hidden>
+    <div class="card">
+      <h2>訂單成立</h2>
+      <p class="hint">請記下訂單編號，查詢訂單時要用到。</p>
+      <div class="ono" id="p-no"></div>
+      <table class="receipt" id="p-receipt"></table>
+    </div>
+
+    <div class="card">
+      <h2>① 匯款</h2>
+      <p class="hint">請匯入以下帳戶，金額要和訂單一致。</p>
+      <dl class="bank">
+        <dt>銀行</dt><dd>中國信託（822）</dd><button type="button" class="copy" data-copy="822">複製</button>
+        <dt>帳號</dt><dd>901620065032</dd><button type="button" class="copy" data-copy="901620065032">複製</button>
+        <dt>戶名</dt><dd>梁＊瑋</dd><span></span>
+        <dt>金額</dt><dd id="p-amt"></dd><button type="button" class="copy" id="p-amt-copy">複製</button>
+      </dl>
+    </div>
+
+    <div class="card" id="p-report-card">
+      <h2>② 回報匯款</h2>
+      <p class="hint">匯完款，填入<b>你匯款帳戶的末五碼</b>，阿桂嬤才對得到帳。<br>還沒匯也沒關係，之後到「查詢訂單」回報就好。</p>
+      <div class="field"><label for="p-last5">匯款帳戶末五碼</label><input id="p-last5" inputmode="numeric" maxlength="5" placeholder="例：12345"><span class="err" id="e-p-last5"></span></div>
+      <button type="button" class="btn wide" id="p-report">送出匯款回報</button>
+      <div class="okbox" id="p-reported" hidden style="margin-top:10px">已收到回報！阿桂嬤對完帳就會安排出貨。</div>
+    </div>
+
+    <div class="card">
+      <h2>③ 等待出貨</h2>
+      <p class="hint" style="margin:0">對帳完成後約 4 個工作天出貨。出貨後，到「查詢訂單」輸入訂單編號和手機，就能看到<b>黑貓託運單號</b>和預計到貨日。</p>
+    </div>
+    <div class="row" style="justify-content:center"><a class="btn line" href="https://lin.ee/wG55dK5" target="_blank" rel="noopener">有問題問阿桂嬤（LINE）</a></div>
+  </section>
+
+  <!-- ===== 查詢 ===== -->
+  <section id="v-track" hidden>
+    <form class="card" id="t-form" novalidate>
+      <h2>查詢訂單</h2>
+      <p class="hint">輸入訂單編號和下單時填的手機號碼。</p>
+      <div class="field"><label for="t-no">訂單編號</label><input id="t-no" placeholder="例：AG1113-001" autocapitalize="characters" maxlength="20"></div>
+      <div class="field"><label for="t-phone">手機號碼</label><input id="t-phone" inputmode="tel" placeholder="09xxxxxxxx" maxlength="12"></div>
+      <span class="err" id="e-track"></span>
+      <button class="btn wide" id="t-go" type="submit">查詢</button>
+    </form>
+
+    <div id="t-result" hidden>
+      <div class="card">
+        <div class="row" style="justify-content:space-between;align-items:center">
+          <div class="ono" id="r-no" style="font-size:20px"></div>
+          <span class="status-pill" id="r-status"></span>
+        </div>
+        <ol class="timeline" id="r-timeline">
+          <li>已下單</li><li>已回報匯款</li><li>已收款</li><li>已出貨</li>
+        </ol>
+        <table class="receipt" id="r-receipt"></table>
+      </div>
+
+      <div class="card" id="r-ship" hidden>
+        <h2>配送資訊</h2>
+        <p class="hint">黑貓宅急便（冷凍）</p>
+        <dl class="bank">
+          <dt>託運單號</dt><dd class="track" id="r-track"></dd><button type="button" class="copy" id="r-track-copy">複製</button>
+          <dt>預計到貨</dt><dd id="r-eta"></dd><span></span>
+        </dl>
+        <div class="row" style="margin-top:12px"><a class="btn wide" href="https://www.t-cat.com.tw/inquire/trace.aspx" target="_blank" rel="noopener">到黑貓官網查配送進度</a></div>
+        <p class="hint" style="margin:10px 0 0">複製單號後，貼到黑貓官網查詢。到貨請盡快放冷凍庫。</p>
+      </div>
+
+      <div class="card" id="r-report-card" hidden>
+        <h2>回報匯款</h2>
+        <p class="hint">應匯金額 <b id="r-amt"></b>，匯款帳戶：中國信託（822）901620065032</p>
+        <div class="field"><label for="r-last5">匯款帳戶末五碼</label><input id="r-last5" inputmode="numeric" maxlength="5" placeholder="例：12345"><span class="err" id="e-r-last5"></span></div>
+        <button type="button" class="btn wide" id="r-report">送出匯款回報</button>
+      </div>
+
+      <div class="card" id="r-wait" hidden>
+        <h2 id="r-wait-title"></h2>
+        <p class="hint" style="margin:0" id="r-wait-text"></p>
+      </div>
+    </div>
+    <div class="row" style="justify-content:center"><a class="btn line" href="https://lin.ee/wG55dK5" target="_blank" rel="noopener">有問題問阿桂嬤（LINE）</a></div>
+  </section>
+</div>
+
+<div class="bar" id="bar" hidden>
+  <div class="in">
+    <div class="sum">
+      <div class="total" id="total">0 元</div>
+      <div class="detail" id="detail">還沒有選口味</div>
+      <div class="nudge" id="nudge"></div>
+    </div>
+    <button type="button" class="btn" id="submit" disabled>送出訂單</button>
+  </div>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+/* ===== 設定：部署 Apps Script 後，把網址貼在這裡 ===== */
+const API_URL = "https://script.google.com/macros/s/AKfycby6842OMRGskU1XfqWelp61cM069M1G55fxJqOSG_iBo1_eRO1NAAOGtUo6yYj0pUuW-Q/exec";
+/* =================================================== */
+
+const DEMO = !API_URL;
+const PRICE = 130;
+const FALLBACK = [
+  {group:"招牌",name:"傳統酸梅湯",desc:"烏梅、洛神、甘草古法熬煮",available:true},
+  {group:"招牌",name:"冰糖菊花茶",desc:"台灣本產菊花配冰糖",available:true},
+  {group:"招牌",name:"菊花涼茶",desc:"菊花茶＋青草涼茶，尾韻菊香",available:true},
+  {group:"招牌",name:"青草涼茶",desc:"多種台灣青草熬煮，不苦回甘",available:true},
+  {group:"招牌",name:"陳皮紅茶",desc:"陳皮配紅茶，香氣溫潤",available:true},
+  {group:"招牌",name:"女神補氣蘋果水",desc:"蘋果配漢方燉煮，香甜順口",available:true},
+  {group:"無糖",name:"牛蒡枸杞茶",desc:"無糖・香醇回甘",available:true},
+  {group:"無糖",name:"黑豆杜仲茶",desc:"無糖・溫潤順口",available:true}
+];
+const $ = id => document.getElementById(id);
+const fmt = x => Number(x||0).toLocaleString("zh-TW");
+const store = {
+  get(k){try{return JSON.parse(localStorage.getItem(k)||"null")}catch(e){return null}},
+  set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+};
+
+function shippingFee(n, region){
+  if(!n) return 0;
+  const boxes = Math.ceil(n/12);
+  if(region==="離島") return n>=12 ? 110*boxes : 400;
+  if(n>=12) return 0;
+  return n<=6 ? 200 : 290;
+}
+
+/* ---------- API（示範模式用本機模擬） ---------- */
+const mock = {
+  db(){return store.get("agm-demo-db")||{orders:[]}},
+  save(d){store.set("agm-demo-db",d)},
+  get(p){
+    if(p.action==="menu") return {ok:true,flavors:FALLBACK.map(f=>({...f,available:f.name!=="青草涼茶"}))};
+    if(p.action==="lookup"){
+      const o=this.db().orders.find(x=>x.no===String(p.no||"").trim().toUpperCase());
+      if(!o||o.phone!==String(p.phone||"").replace(/\D/g,"")) return {ok:false,error:"查不到這筆訂單，請確認訂單編號和手機"};
+      return {ok:true,order:{...o,items:o.items.map(i=>i.name+" × "+i.qty),reported:!!o.last5}};
+    }
+  },
+  post(b){
+    const d=this.db();
+    if(b.action==="create"){
+      const n=b.items.reduce((a,i)=>a+i.qty,0);const ship=shippingFee(n,b.region);
+      const t=new Date();const pre="AG"+String(t.getMonth()+1).padStart(2,"0")+String(t.getDate()).padStart(2,"0")+"-";
+      const seq=d.orders.filter(o=>o.no.startsWith(pre)).length+1;
+      const o={no:pre+String(seq).padStart(3,"0"),status:"待匯款",name:b.name,phone:b.phone.replace(/\D/g,""),region:b.region,items:b.items,n,sub:n*PRICE,ship,total:n*PRICE+ship,last5:"",track:"",eta:""};
+      d.orders.push(o);this.save(d);return {ok:true,order:o};
+    }
+    if(b.action==="report"){
+      const o=d.orders.find(x=>x.no===b.no);
+      if(!o||o.phone!==String(b.phone).replace(/\D/g,"")) return {ok:false,error:"查不到這筆訂單"};
+      o.last5=b.last5;o.status="待對帳";this.save(d);return {ok:true};
+    }
+  }
+};
+async function apiGet(params){
+  if(DEMO){await new Promise(r=>setTimeout(r,300));return mock.get(params);}
+  const r=await fetch(API_URL+"?"+new URLSearchParams(params));
+  return r.json();
+}
+async function apiPost(body){
+  if(DEMO){await new Promise(r=>setTimeout(r,500));return mock.post(body);}
+  const r=await fetch(API_URL,{method:"POST",body:JSON.stringify(body)});
+  return r.json();
+}
+
+/* ---------- 共用 ---------- */
+function toast(m){const e=$("toast");e.textContent=m;e.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>e.hidden=true,2200);}
+async function copy(text,el){
+  try{await navigator.clipboard.writeText(text);toast("已複製");}
+  catch(e){if(el){const r=document.createRange();r.selectNodeContents(el);const s=getSelection();s.removeAllRanges();s.addRange(r);}toast("已選取，請長按複製");}
+}
+function receipt(table,rows,total){
+  table.innerHTML="";
+  rows.forEach(([a,b])=>{const r=table.insertRow();r.insertCell().textContent=a;r.insertCell().textContent=b;});
+  const r=table.insertRow();r.className="t";r.insertCell().textContent="應付金額";r.insertCell().textContent=fmt(total)+" 元";
+}
+function busy(btn,on,label){btn.disabled=on;if(on){btn.dataset.l=btn.textContent;btn.textContent=label||"處理中…";}else if(btn.dataset.l){btn.textContent=btn.dataset.l;}}
+const last5Clean=el=>{el.value=el.value.replace(/\D/g,"").slice(0,5);};
+
+/* ---------- 路由 ---------- */
+function route(){
+  let v=(location.hash||"#order").slice(1);
+  if(v==="pay"&&!currentOrder) v="order";
+  if(!["order","pay","track"].includes(v)) v="order";
+  ["order","pay","track"].forEach(k=>$("v-"+k).hidden=k!==v);
+  $("bar").hidden=v!=="order";
+  $("tab-order").toggleAttribute("aria-current",v==="order"||v==="pay");
+  $("tab-track").toggleAttribute("aria-current",v==="track");
+  if($("tab-order").hasAttribute("aria-current"))$("tab-order").setAttribute("aria-current","page");
+  if($("tab-track").hasAttribute("aria-current"))$("tab-track").setAttribute("aria-current","page");
+  if(v==="track")prefillTrack();
+}
+window.addEventListener("hashchange",()=>{route();window.scrollTo(0,0);});
+
+/* ---------- 訂購 ---------- */
+let FLAVORS=FALLBACK.map(f=>({...f}));
+const qty={};
+function renderList(){
+  const box=$("list");box.innerHTML="";let last="";
+  FLAVORS.forEach(f=>{
+    if(qty[f.name]==null)qty[f.name]=0;
+    if(!f.available)qty[f.name]=0;
+    if(f.group!==last){const h=document.createElement("div");h.className="group";h.textContent=f.group;box.appendChild(h);last=f.group;}
+    const row=document.createElement("div");row.className="item"+(f.available?"":" out");
+    const nm=document.createElement("div");nm.className="name";
+    const st=document.createElement("strong");st.textContent=f.name;
+    if(!f.available){const so=document.createElement("span");so.className="soldout";so.textContent="缺貨";st.appendChild(so);}
+    const ds=document.createElement("span");ds.textContent=f.available?f.desc:"暫時缺貨，請先選其他口味";
+    nm.append(st,ds);
+    const step=document.createElement("div");step.className="step";
+    const m=document.createElement("button");m.type="button";m.textContent="−";m.setAttribute("aria-label","減少 "+f.name);
+    const o=document.createElement("output");
+    const p=document.createElement("button");p.type="button";p.textContent="＋";p.setAttribute("aria-label","增加 "+f.name);
+    m.addEventListener("click",()=>{if(qty[f.name]>0){qty[f.name]--;update();}});
+    p.addEventListener("click",()=>{if(total()<48){qty[f.name]++;update();}else toast("單筆最多 48 瓶，大量訂購請私訊阿桂嬤");});
+    step.append(m,o,p);row.append(nm,step);box.appendChild(row);
+    f._row=row;f._out=o;f._m=m;f._p=p;
+  });
+  update();
+}
+const total=()=>FLAVORS.reduce((a,f)=>a+(qty[f.name]||0),0);
+const region=()=>$("r-island").checked?"離島":"本島";
+function update(){
+  FLAVORS.forEach(f=>{const q=qty[f.name]||0;f._out.textContent=q;f._row.classList.toggle("on",q>0);f._m.disabled=q===0;f._p.disabled=!f.available;});
+  const n=total(),ship=shippingFee(n,region()),sub=n*PRICE;
+  $("total").textContent=fmt(sub+ship)+" 元";
+  $("detail").textContent=n?`${n} 瓶 ${fmt(sub)}＋運費 ${ship?fmt(ship):"免運"}${n>12?`（${Math.ceil(n/12)} 箱）`:""}`:"還沒有選口味";
+  const need=12-n;
+  $("nudge").textContent=(n>0&&need>0&&need<=6&&region()==="本島")?`再 ${need} 瓶就免運！`:"";
+  $("submit").disabled=n===0;
+  saveDraft();
+}
+function saveDraft(){store.set("agm-draft",{qty,region:region(),name:$("f-name").value,phone:$("f-phone").value,addr:$("f-addr").value,note:$("f-note").value});}
+function loadDraft(){const d=store.get("agm-draft");if(!d)return;
+  Object.assign(qty,d.qty||{});if(d.region==="離島")$("r-island").checked=true;
+  ["name","phone","addr","note"].forEach(k=>{if(d[k])$("f-"+k).value=d[k];});}
+
+function validate(){
+  let ok=true;const set=(k,m)=>{$("e-"+k).textContent=m;if(m)ok=false;};
+  set("name",$("f-name").value.trim()?"":"請填收件人姓名");
+  set("phone",/^09\d{8}$/.test($("f-phone").value.replace(/\D/g,""))?"":"請填 09 開頭的 10 碼手機");
+  set("addr",$("f-addr").value.trim().length>=6?"":"請填完整地址");
+  return ok;
+}
+
+async function loadMenu(){
+  try{
+    const r=await apiGet({action:"menu"});
+    if(r&&r.ok&&r.flavors.length){
+      FLAVORS=r.flavors;renderList();$("stock-loading").hidden=true;return;
+    }
+    throw 0;
+  }catch(e){$("stock-loading").textContent="（暫時無法確認供應狀態，送出時會再確認）";}
+}
+
+let currentOrder=null;
+$("submit").addEventListener("click",async()=>{
+  if(!validate()){const e=document.querySelector("#form .err:not(:empty)");e&&e.previousElementSibling.focus();toast("收件資料還沒填完整");return;}
+  const btn=$("submit");busy(btn,true,"送出中…");
+  try{
+    const r=await apiPost({action:"create",name:$("f-name").value.trim(),phone:$("f-phone").value.replace(/\D/g,""),
+      addr:$("f-addr").value.trim(),note:$("f-note").value.trim(),region:region(),website:$("f-website").value,
+      items:FLAVORS.filter(f=>qty[f.name]>0).map(f=>({name:f.name,qty:qty[f.name]}))});
+    if(!r||!r.ok){
+      toast((r&&r.error)||"送出失敗，請稍後再試");
+      if(r&&r.soldOut){FLAVORS.forEach(f=>{if(r.soldOut.includes(f.name))f.available=false;});renderList();}
+      return;
+    }
+    currentOrder={...r.order,phone:$("f-phone").value.replace(/\D/g,"")};
+    store.set("agm-last",{no:currentOrder.no,phone:currentOrder.phone});
+    FLAVORS.forEach(f=>qty[f.name]=0);$("f-note").value="";update();
+    showPay();location.hash="#pay";
+  }catch(e){toast("網路不穩，請再按一次送出");}
+  finally{busy(btn,false);}
+});
+
+function showPay(){
+  const o=currentOrder;
+  $("p-no").textContent=o.no;
+  receipt($("p-receipt"),[...o.items.map(i=>[`${i.name} × ${i.qty}`,fmt(i.qty*PRICE)+" 元"]),
+    [`運費（${o.region}）`,o.ship?fmt(o.ship)+" 元":"免運"]],o.total);
+  $("p-amt").textContent=fmt(o.total)+" 元";$("p-amt-copy").dataset.copy=String(o.total);
+  $("p-last5").value="";$("e-p-last5").textContent="";$("p-reported").hidden=true;$("p-report").hidden=false;$("p-last5").disabled=false;
+}
+
+async function doReport(no,phone,input,errEl,btn){
+  last5Clean(input);
+  if(!/^\d{5}$/.test(input.value)){errEl.textContent="請填 5 位數的匯款帳戶末五碼";input.focus();return false;}
+  errEl.textContent="";busy(btn,true,"送出中…");
+  try{
+    const r=await apiPost({action:"report",no,phone,last5:input.value});
+    if(!r||!r.ok){errEl.textContent=(r&&r.error)||"送出失敗，請稍後再試";return false;}
+    toast("已收到匯款回報");return true;
+  }catch(e){errEl.textContent="網路不穩，請再試一次";return false;}
+  finally{busy(btn,false);}
+}
+$("p-report").addEventListener("click",async()=>{
+  const ok=await doReport(currentOrder.no,currentOrder.phone,$("p-last5"),$("e-p-last5"),$("p-report"));
+  if(ok){$("p-reported").hidden=false;$("p-report").hidden=true;$("p-last5").disabled=true;}
+});
+
+/* ---------- 查詢 ---------- */
+let viewing=null;
+function prefillTrack(){
+  const l=store.get("agm-last");
+  if(l&&!$("t-no").value){$("t-no").value=l.no;$("t-phone").value=l.phone;}
+}
+const STEPS=["待匯款","待對帳","已收款","已出貨"];
+async function lookup(){
+  const no=$("t-no").value.trim().toUpperCase(),phone=$("t-phone").value.replace(/\D/g,"");
+  if(!no||!/^09\d{8}$/.test(phone)){$("e-track").textContent="請填訂單編號和 10 碼手機";return;}
+  $("e-track").textContent="";busy($("t-go"),true,"查詢中…");
+  try{
+    const r=await apiGet({action:"lookup",no,phone});
+    if(!r||!r.ok){$("e-track").textContent=(r&&r.error)||"查詢失敗，請稍後再試";$("t-result").hidden=true;return;}
+    viewing={...r.order,phone};store.set("agm-last",{no,phone});renderResult();
+  }catch(e){$("e-track").textContent="網路不穩，請再試一次";}
+  finally{busy($("t-go"),false);}
+}
+function renderResult(){
+  const o=viewing;$("t-result").hidden=false;
+  $("r-no").textContent=o.no;
+  const pill=$("r-status");pill.textContent=o.status;pill.className="status-pill"+(o.status==="已取消"?" cancel":"");
+  const idx=STEPS.indexOf(o.status);
+  [...$("r-timeline").children].forEach((li,i)=>{li.className=(idx>=i?"done":"")+(idx===i?" now":"");});
+  $("r-timeline").hidden=o.status==="已取消";
+  receipt($("r-receipt"),[...o.items.map(s=>[s,""]),[`運費（${o.region}）`,o.ship?fmt(o.ship)+" 元":"免運"]],o.total);
+  $("r-ship").hidden=o.status!=="已出貨";
+  if(o.status==="已出貨"){
+    const t=String(o.track||"").replace(/\D/g,"");
+    $("r-track").textContent=t.length===12?`${t.slice(0,4)}-${t.slice(4,8)}-${t.slice(8)}`:(t||"阿桂嬤補單號中");
+    $("r-track-copy").dataset.copy=t;$("r-track-copy").hidden=!t;
+    let eta="—";if(o.eta){const d=new Date(o.eta+"T00:00");if(!isNaN(d))eta=`${d.getMonth()+1}/${d.getDate()}（${"日一二三四五六"[d.getDay()]}）`;}
+    $("r-eta").textContent=eta;
+  }
+  const needReport=o.status==="待匯款";
+  $("r-report-card").hidden=!needReport;
+  if(needReport){$("r-amt").textContent=fmt(o.total)+" 元";$("r-last5").value="";$("e-r-last5").textContent="";}
+  const wait={
+    "待對帳":["已收到你的匯款回報","阿桂嬤對完帳會把狀態改成「已收款」，之後約 4 個工作天出貨。"],
+    "已收款":["已確認收款，準備出貨中","約 4 個工作天出貨，出貨後這裡會顯示黑貓託運單號。"],
+    "已取消":["這筆訂單已取消","有問題請透過 LINE 聯絡阿桂嬤。"]
+  }[o.status];
+  $("r-wait").hidden=!wait;
+  if(wait){$("r-wait-title").textContent=wait[0];$("r-wait-text").textContent=wait[1];}
+}
+$("t-form").addEventListener("submit",e=>{e.preventDefault();lookup();});
+$("r-report").addEventListener("click",async()=>{
+  const ok=await doReport(viewing.no,viewing.phone,$("r-last5"),$("e-r-last5"),$("r-report"));
+  if(ok){viewing.status="待對帳";renderResult();}
+});
+
+/* ---------- 綁定 ---------- */
+document.querySelectorAll('input[name=region]').forEach(r=>r.addEventListener("change",update));
+["f-name","f-phone","f-addr","f-note"].forEach(id=>$(id).addEventListener("input",saveDraft));
+["p-last5","r-last5"].forEach(id=>$(id).addEventListener("input",e=>last5Clean(e.target)));
+document.addEventListener("click",e=>{const b=e.target.closest(".copy");if(b&&b.dataset.copy)copy(b.dataset.copy,b.previousElementSibling);});
+
+$("demo").hidden=!DEMO;
+loadDraft();renderList();route();loadMenu();
+</script>
+</body>
+</html>
