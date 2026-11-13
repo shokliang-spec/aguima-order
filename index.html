@@ -91,7 +91,7 @@ h2{font-family:var(--f-display);font-weight:900;color:var(--ink-head);font-size:
 .bank dd{margin:0;font-weight:700;font-size:16px;color:var(--ink-head);word-break:break-all}
 .copy{font:inherit;font-size:12px;border:1px solid var(--gold);background:#FBF4E2;color:var(--ink-head);border-radius:4px;padding:4px 10px;cursor:pointer}
 .okbox{background:#E3F0E6;border:1px solid var(--ok);color:var(--ok);border-radius:6px;padding:10px 12px;font-weight:700;font-size:14px}
-.timeline{list-style:none;padding:0;margin:12px 0 4px;display:grid;grid-template-columns:repeat(4,1fr);gap:4px;text-align:center;font-size:12px}
+.timeline{list-style:none;padding:0;margin:12px 0 4px;display:grid;grid-template-columns:repeat(5,1fr);gap:4px;text-align:center;font-size:12px}
 .timeline li{padding-top:22px;position:relative;color:var(--muted)}
 .timeline li::before{content:"";position:absolute;top:4px;left:50%;width:12px;height:12px;margin-left:-6px;border-radius:50%;border:2px solid #CDB27A;background:#FFFBF0}
 .timeline li::after{content:"";position:absolute;top:9px;left:calc(50% + 8px);right:calc(-50% + 8px);height:2px;background:#CDB27A}
@@ -216,7 +216,7 @@ h2{font-family:var(--f-display);font-weight:900;color:var(--ink-head);font-size:
           <span class="status-pill" id="r-status"></span>
         </div>
         <ol class="timeline" id="r-timeline">
-          <li>已下單</li><li>已回報匯款</li><li>已收款</li><li>已出貨</li>
+          <li>已下單</li><li>已回報</li><li>已收款</li><li>已出貨</li><li>已送達</li>
         </ol>
         <table class="receipt" id="r-receipt"></table>
       </div>
@@ -227,6 +227,7 @@ h2{font-family:var(--f-display);font-weight:900;color:var(--ink-head);font-size:
         <dl class="bank">
           <dt>託運單號</dt><dd class="track" id="r-track"></dd><button type="button" class="copy" id="r-track-copy">複製</button>
           <dt>預計到貨</dt><dd id="r-eta"></dd><span></span>
+          <dt>黑貓狀態</dt><dd id="r-tcat"></dd><span></span>
         </dl>
         <div class="row" style="margin-top:12px"><a class="btn wide" href="https://www.t-cat.com.tw/inquire/trace.aspx" target="_blank" rel="noopener">到黑貓官網查配送進度</a></div>
         <p class="hint" style="margin:10px 0 0">複製單號後，貼到黑貓官網查詢。到貨請盡快放冷凍庫。</p>
@@ -473,7 +474,7 @@ function prefillTrack(){
   const l=store.get("agm-last");
   if(l&&!$("t-no").value){$("t-no").value=l.no;$("t-phone").value=l.phone;}
 }
-const STEPS=["待匯款","待對帳","已收款","已出貨"];
+const STEPS=["待匯款","待對帳","已收款","已出貨","已送達"];
 async function lookup(){
   const no=$("t-no").value.trim().toUpperCase(),phone=$("t-phone").value.replace(/\D/g,"");
   if(!no||!/^09\d{8}$/.test(phone)){$("e-track").textContent="請填訂單編號和 10 碼手機";return;}
@@ -493,13 +494,15 @@ function renderResult(){
   [...$("r-timeline").children].forEach((li,i)=>{li.className=(idx>=i?"done":"")+(idx===i?" now":"");});
   $("r-timeline").hidden=o.status==="已取消";
   receipt($("r-receipt"),[...o.items.map(s=>[s,""]),[`運費（${o.region}）`,o.ship?fmt(o.ship)+" 元":"免運"]],o.total);
-  $("r-ship").hidden=o.status!=="已出貨";
-  if(o.status==="已出貨"){
+  const shipped=o.status==="已出貨"||o.status==="已送達";
+  $("r-ship").hidden=!shipped;
+  if(shipped){
     const t=String(o.track||"").replace(/\D/g,"");
     $("r-track").textContent=t.length===12?`${t.slice(0,4)}-${t.slice(4,8)}-${t.slice(8)}`:(t||"阿桂嬤補單號中");
     $("r-track-copy").dataset.copy=t;$("r-track-copy").hidden=!t;
     let eta="—";if(o.eta){const d=new Date(o.eta+"T00:00");if(!isNaN(d))eta=`${d.getMonth()+1}/${d.getDate()}（${"日一二三四五六"[d.getDay()]}）`;}
     $("r-eta").textContent=eta;
+    $("r-tcat").textContent=o.tcat?String(o.tcat).split("｜")[0]:"等黑貓更新";
   }
   const needReport=o.status==="待匯款";
   $("r-report-card").hidden=!needReport;
@@ -507,6 +510,7 @@ function renderResult(){
   const wait={
     "待對帳":["已收到你的匯款回報","阿桂嬤對完帳會把狀態改成「已收款」，之後約 4 個工作天出貨。"],
     "已收款":["已確認收款，準備出貨中","約 4 個工作天出貨，出貨後這裡會顯示黑貓託運單號。"],
+    "已送達":["包裹已送達 🎉","請盡快放入冷凍庫保存（可保存 30 天）。要喝前一晚移到冷藏退冰，解凍後 3 天內喝完。謝謝你支持阿桂嬤！"],
     "已取消":["這筆訂單已取消","有問題請透過 LINE 聯絡阿桂嬤。"]
   }[o.status];
   $("r-wait").hidden=!wait;
