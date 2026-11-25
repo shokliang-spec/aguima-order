@@ -193,7 +193,9 @@ h2{font-family:var(--f-display);font-weight:900;color:var(--ink-head);font-size:
 
     <div class="card">
       <h2>③ 等待出貨</h2>
-      <p class="hint" style="margin:0">對帳完成後約 4 個工作天出貨。出貨後，到「查詢訂單」輸入訂單編號和手機，就能看到<b>黑貓託運單號</b>和預計到貨日。</p>
+      <p class="hint">對帳完成後約 4 個工作天出貨。</p>
+      <a class="btn line wide" id="p-linebind" href="#" target="_blank" rel="noopener">用 LINE 接收出貨通知</a>
+      <p class="hint" style="margin:10px 0 0">按下去會打開阿桂嬤的 LINE，訊息已經幫你填好，<b>直接按傳送</b>就完成綁定。出貨時阿桂嬤會在 LINE 傳黑貓單號給你。</p>
     </div>
     <div class="row" style="justify-content:center"><a class="btn line" href="https://lin.ee/wG55dK5" target="_blank" rel="noopener">有問題問阿桂嬤（LINE）</a></div>
   </section>
@@ -244,6 +246,12 @@ h2{font-family:var(--f-display);font-weight:900;color:var(--ink-head);font-size:
         <h2 id="r-wait-title"></h2>
         <p class="hint" style="margin:0" id="r-wait-text"></p>
       </div>
+
+      <div class="card" id="r-line" hidden>
+        <h2>用 LINE 接收出貨通知</h2>
+        <p class="hint">按下去會打開阿桂嬤的 LINE，訊息已經填好，直接按傳送就完成綁定。</p>
+        <a class="btn line wide" id="r-linebind" href="#" target="_blank" rel="noopener">綁定 LINE 出貨通知</a>
+      </div>
     </div>
     <div class="row" style="justify-content:center"><a class="btn line" href="https://lin.ee/wG55dK5" target="_blank" rel="noopener">有問題問阿桂嬤（LINE）</a></div>
   </section>
@@ -267,6 +275,9 @@ const API_URL = "https://script.google.com/macros/s/AKfycby6842OMRGskU1XfqWelp61
 /* =================================================== */
 
 const DEMO = !API_URL;
+const LINE_OA = "@571sdloz";
+const lineBindUrl = o => "https://line.me/R/oaMessage/" + encodeURIComponent(LINE_OA) + "/?" +
+  encodeURIComponent("綁定訂單 " + o.no + " 驗證碼 " + (o.bind || ""));
 const PRICE = 130;
 const FALLBACK = [
   {group:"招牌",name:"傳統酸梅湯",desc:"烏梅、洛神、甘草古法熬煮",available:true},
@@ -311,7 +322,7 @@ const mock = {
       const n=b.items.reduce((a,i)=>a+i.qty,0);const ship=shippingFee(n,b.region);
       const t=new Date();const pre="AG"+String(t.getMonth()+1).padStart(2,"0")+String(t.getDate()).padStart(2,"0")+"-";
       const seq=d.orders.filter(o=>o.no.startsWith(pre)).length+1;
-      const o={no:pre+String(seq).padStart(3,"0"),status:"待匯款",name:b.name,phone:b.phone.replace(/\D/g,""),region:b.region,items:b.items,n,sub:n*PRICE,ship,total:n*PRICE+ship,last5:"",track:"",eta:""};
+      const o={no:pre+String(seq).padStart(3,"0"),status:"待匯款",name:b.name,phone:b.phone.replace(/\D/g,""),region:b.region,items:b.items,n,sub:n*PRICE,ship,total:n*PRICE+ship,last5:"",track:"",eta:"",bind:"a1b2c3"};
       d.orders.push(o);this.save(d);return {ok:true,order:o};
     }
     if(b.action==="report"){
@@ -448,6 +459,7 @@ function showPay(){
   $("p-no").textContent=o.no;
   receipt($("p-receipt"),[...o.items.map(i=>[`${i.name} × ${i.qty}`,fmt(i.qty*PRICE)+" 元"]),
     [`運費（${o.region}）`,o.ship?fmt(o.ship)+" 元":"免運"]],o.total);
+  $("p-linebind").href=lineBindUrl(o);$("p-linebind").hidden=!o.bind;
   $("p-amt").textContent=fmt(o.total)+" 元";$("p-amt-copy").dataset.copy=String(o.total);
   $("p-last5").value="";$("e-p-last5").textContent="";$("p-reported").hidden=true;$("p-report").hidden=false;$("p-last5").disabled=false;
 }
@@ -514,6 +526,8 @@ function renderResult(){
     "已取消":["這筆訂單已取消","有問題請透過 LINE 聯絡阿桂嬤。"]
   }[o.status];
   $("r-wait").hidden=!wait;
+  $("r-line").hidden=!o.bind||o.lineBound||o.status==="已送達"||o.status==="已取消";
+  if(o.bind)$("r-linebind").href=lineBindUrl(o);
   if(wait){$("r-wait-title").textContent=wait[0];$("r-wait-text").textContent=wait[1];}
 }
 $("t-form").addEventListener("submit",e=>{e.preventDefault();lookup();});
